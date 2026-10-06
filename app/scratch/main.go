@@ -40,7 +40,8 @@ func run() error {
 		return fmt.Errorf("unable to load private key, %w", err)
 	}
 
-	v := crypto.Keccak256(data)
+	stamp := []byte(fmt.Sprintf("\x19Ardan Signed Message:\n%d", len(data)))
+	v := crypto.Keccak256(stamp, data)
 
 	sig, err := crypto.Sign(v, privateKey)
 	if err != nil {
@@ -76,7 +77,8 @@ func run() error {
 		return fmt.Errorf("unable to load private key, %w", err)
 	}
 
-	v = crypto.Keccak256(data)
+	stamp = []byte(fmt.Sprintf("\x19Ardan Signed Message:\n%d", len(data)))
+	v = crypto.Keccak256(stamp, data)
 
 	sig, err = crypto.Sign(v, privateKey)
 	if err != nil {
