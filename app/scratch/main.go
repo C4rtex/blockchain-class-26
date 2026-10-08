@@ -98,7 +98,7 @@ func run() error {
 
 	fmt.Println(crypto.PubkeyToAddress(*publicKey).String())
 
-	vv, r, s, err := ToVRSFromHexSignature(string(sig))
+	vv, r, s, err := ToVRSFromHexSignature(hexutil.Encode(sig))
 	if err != nil {
 		return fmt.Errorf("unable to VRS %w", err)
 	}
