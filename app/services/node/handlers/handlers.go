@@ -11,6 +11,7 @@ import (
 	"github.com/ardanlabs/blockchain/app/services/node/handlers/debug/checkgrp"
 	v1 "github.com/ardanlabs/blockchain/app/services/node/handlers/v1"
 	"github.com/ardanlabs/blockchain/business/web/v1/mid"
+	"github.com/ardanlabs/blockchain/foundation/blockchain/state"
 	"github.com/ardanlabs/blockchain/foundation/web"
 	"go.uber.org/zap"
 )
@@ -18,6 +19,7 @@ import (
 // MuxConfig contains all the mandatory systems required by handlers.
 type MuxConfig struct {
 	Shutdown chan os.Signal
+	State    *state.State
 	Log      *zap.SugaredLogger
 }
 
@@ -44,7 +46,8 @@ func PublicMux(cfg MuxConfig) http.Handler {
 
 	// Load the v1 routes.
 	v1.PublicRoutes(app, v1.Config{
-		Log: cfg.Log,
+		State: cfg.State,
+		Log:   cfg.Log,
 	})
 
 	return app
