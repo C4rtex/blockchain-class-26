@@ -12,6 +12,7 @@ import (
 	v1 "github.com/ardanlabs/blockchain/app/services/node/handlers/v1"
 	"github.com/ardanlabs/blockchain/business/web/v1/mid"
 	"github.com/ardanlabs/blockchain/foundation/blockchain/state"
+	"github.com/ardanlabs/blockchain/foundation/nameservice"
 	"github.com/ardanlabs/blockchain/foundation/web"
 	"go.uber.org/zap"
 )
@@ -21,6 +22,7 @@ type MuxConfig struct {
 	Shutdown chan os.Signal
 	State    *state.State
 	Log      *zap.SugaredLogger
+	NS       *nameservice.NameService
 }
 
 // PublicMux constructs a http.Handler with all application routes defined.
@@ -48,6 +50,7 @@ func PublicMux(cfg MuxConfig) http.Handler {
 	v1.PublicRoutes(app, v1.Config{
 		State: cfg.State,
 		Log:   cfg.Log,
+		NS:    cfg.NS,
 	})
 
 	return app
