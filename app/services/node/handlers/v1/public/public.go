@@ -32,6 +32,18 @@ func (h Handlers) Sample(ctx context.Context, w http.ResponseWriter, r *http.Req
 	return web.Respond(ctx, w, resp, http.StatusOK)
 }
 
+// Sample just provides a starting point for the class.
+func (h Handlers) Cancel(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
+	h.State.Worker.SignalCancelMining()
+	resp := struct {
+		Status string `json:"status"`
+	}{
+		Status: "cancelling",
+	}
+
+	return web.Respond(ctx, w, resp, http.StatusOK)
+}
+
 // Genesis returns the genesis information.
 func (h Handlers) Genesis(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
 	gen := h.State.Genesis()
